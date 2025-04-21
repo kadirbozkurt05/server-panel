@@ -130,9 +130,8 @@ exports.getMyStats = async (req, res, next) => {
 };
 exports.getStudentStats = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.query;
     const { startDate, endDate } = req.query;
-
     const query = { ogrenci_id: id };
     if (startDate && endDate) {
       query.tarih = { $gte: new Date(startDate), $lte: new Date(endDate) };

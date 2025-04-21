@@ -1,17 +1,33 @@
 const User = require('../models/User');
-const Lesson = require('../models/Lesson'); // Ders silmek için
+const Lesson = require('../models/Lesson');
 const AppError = require('../utils/error');
 const jwt = require('jsonwebtoken');
 
 // Öğrenci listesini getir
 exports.getStudents = async (req, res, next) => {
   try {
-    const students = await User.find({ role: 'öğrenci' }).select('name email username');
+    const { id } = req.query;
+
+    let students;
+
+    // Eğer id parametresi varsa sadece o öğrenciyi getir
+    if (id) {
+      const student = await User.findById(id).select('name email username role');
+      
+      if (!student || student.role !== 'öğrenci') {
+        return next(new AppError('Öğrenci bulunamadı', 404));
+      }
+      students = [student];
+    } else {
+      // id yoksa tüm öğrencileri getir
+      students = await User.find({ role: 'öğrenci' }).select('name email username');
+    }
 
     res.status(200).json({
       status: 'success',
       results: students.length,
       data: {
+        student: students[0], // Tek öğrenci için student, çoklu için students
         students,
       },
     });
