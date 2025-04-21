@@ -5,5 +5,6 @@ const authMiddleware = require('../middlewares/auth');
 
 router.get('/', authMiddleware.protect, authMiddleware.restrictToTeacher, statsController.getStats);
 router.get('/me', authMiddleware.protect, statsController.getMyStats);
+router.get('/student', authMiddleware.protect, statsController.getStudentStats);
 
 module.exports = router;
