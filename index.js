@@ -7,6 +7,14 @@ const userRoutes = require('./routes/user');
 const lessonRoutes = require('./routes/lesson');
 const statsRoutes = require('./routes/stats');
 const errorHandler = require('./middlewares/error');
+const https = require('https');
+const fs = require('fs');
+const express = require('express');
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/n8n.esmaogretmen.com/fullchain.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/n8n.esmaogretmen.com/privkey.pem')
+};
+
 
 // Çevre değişkenlerini yükle
 dotenv.config();
@@ -50,6 +58,6 @@ app.get('/', (req, res) => {
 
 // Server başlat
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server http://localhost:${PORT} adresinde çalışıyor`);
+https.createServer(options, app).listen(5000, () => {
+  console.log('HTTPS Server running on port 5000');
 });
