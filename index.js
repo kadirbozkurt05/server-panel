@@ -10,9 +10,10 @@ const errorHandler = require('./middlewares/error');
 const https = require('https');
 const fs = require('fs');
 const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/n8n.esmaogretmen.com/fullchain.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/n8n.esmaogretmen.com/privkey.pem')
+  key: fs.readFileSync('/etc/letsencrypt/live/n8n.esmaogretmen.com/privkey.pem', 'utf8'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/n8n.esmaogretmen.com/fullchain.pem', 'utf8')
 };
+
 
 
 // Çevre değişkenlerini yükle
