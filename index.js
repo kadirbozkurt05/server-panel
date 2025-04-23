@@ -12,6 +12,14 @@ const errorHandler = require('./middlewares/error');
 dotenv.config();
 
 const app = express();
+const corsOptions = {
+  origin: 'https://eo-panel.netlify.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(cors());
